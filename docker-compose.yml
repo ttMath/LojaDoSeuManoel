@@ -1,0 +1,40 @@
+services:
+  lojadoseumanoel-api:
+    container_name: lojadoseumanoel-api
+    build:
+      context: . 
+      dockerfile: src/LojaDoSeuManoel.Api/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - JwtSettings__Key=${JWT_SETTINGS__KEY} 
+      - JwtSettings__Issuer=${JWT_SETTINGS__ISSUER}
+      - JwtSettings__Audience=${JWT_SETTINGS__AUDIENCE}
+      - AppSettings__FraseSecretaParaToken=${APPSETTINGS__FRASESECRETAPARATOKEN}
+      - ConnectionStrings__DefaultConnection=Server=sqlserver_db;Database=ManuelPackages;User ID=sa;Password=${SQL_PASSWORD};TrustServerCertificate=True;MultipleActiveResultSets=true;
+    networks:
+      - lojadoseumanoel-network
+    depends_on:
+     - sqlserver_db
+
+  sqlserver_db:
+    container_name: lojadoseumanoel-sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "14330:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_PASSWORD}
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - lojadoseumanoel-network
+
+networks:
+  lojadoseumanoel-network:
+    driver: bridge
+
+volumes:
+  sqlserver_data:

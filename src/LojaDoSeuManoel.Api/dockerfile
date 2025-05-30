@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /source
+
+COPY *.sln .
+COPY src/LojaDoSeuManoel.Domain/*.csproj ./src/LojaDoSeuManoel.Domain/
+COPY src/LojaDoSeuManoel.Application/*.csproj ./src/LojaDoSeuManoel.Application/
+COPY src/LojaDoSeuManoel.Infrastructure/*.csproj ./src/LojaDoSeuManoel.Infrastructure/
+COPY src/LojaDoSeuManoel.Api/*.csproj ./src/LojaDoSeuManoel.Api/
+COPY tests/LojaDoSeuManoel.Tests/*.csproj ./tests/LojaDoSeuManoel.Tests/
+
+RUN dotnet restore "LojaDoSeuManoel.sln"
+
+COPY src/. ./src/
+COPY tests/. ./tests/
+
+FROM build AS test
+WORKDIR /source/tests/LojaDoSeuManoel.Tests
+
+FROM build AS publish
+WORKDIR /source/src/LojaDoSeuManoel.Api
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "LojaDoSeuManoel.Api.dll"]
