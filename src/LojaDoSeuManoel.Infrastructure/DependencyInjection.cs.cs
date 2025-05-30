@@ -1,4 +1,6 @@
 ﻿using LojaDoSeuManoel.Domain.Interfaces;
+using LojaDoSeuManoel.Infrastructure.Auth;
+using LojaDoSeuManoel.Infrastructure.Auth.Interfaces;
 using LojaDoSeuManoel.Infrastructure.Persistence;
 using LojaDoSeuManoel.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,7 @@ namespace LojaDoSeuManoel.Infrastructure
 
             services.AddScoped<ICaixaRepository, CaixaRepository>();
             services.AddScoped<IResultadoEmbalagemRepository, ResultadoEmbalagemRepository>();
+            services.AddScoped<ITokenService, JwtService>();
 
             return services;
         }
