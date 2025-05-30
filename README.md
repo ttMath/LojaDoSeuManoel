@@ -1,6 +1,6 @@
 ## Como Executar a Aplicação
 
-o arquivo `.env` na raiz do projeto já está configurado com as senhas e chaves secretas `SQL_PASSWORD`, `JWT_SETTINGS__KEY` e `APPSETTINGS__FRASESECRETAPARATOKENTESTE`.
+o arquivo `.env` na raiz do projeto já está configurado com as senhas e chaves secretas `SQL_PASSWORD`, `JWT_SETTINGS__KEY` e `APPSETTINGS__FRASESECRETAPARATOKEN`.
 
 ### 1. Iniciar a Aplicação (Primeira Vez)
 
@@ -19,9 +19,9 @@ o arquivo `.env` na raiz do projeto já está configurado com as senhas e chaves
 ### 3. Autenticação no Swagger (Obter Token para Testes)
 
 1.  **Gerar Token de Teste:**
-    * No Swagger, localize o controller `Auth` e o endpoint `POST /api/Auth/gerar-token-teste`.
+    * No Swagger, localize o controller `Auth` e o endpoint `POST /api/Auth/gerar-token`.
     * Clique em "Try it out".
-    * No corpo da requisição ("Request body"), insira a frase secreta configurada no seu arquivo `.env` (variável `APPSETTINGS__FRASESECRETAPARATOKENTESTE`):
+    * No corpo da requisição ("Request body"), insira a frase secreta configurada no seu arquivo `.env` (variável `APPSETTINGS__FRASESECRETAPARATOKEN`):
         ```json
         {
           "fraseSecreta": "sua-frase-secreta-configurada-no-env"
